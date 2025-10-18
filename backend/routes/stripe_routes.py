@@ -160,7 +160,7 @@ async def get_subscription(subscription_id: str):
             'subscription': subscription,
             'success': True
         }
-    except stripe.error.StripeError as e:
+    except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post('/cancel-subscription')
@@ -176,5 +176,5 @@ async def cancel_subscription(request: Request):
             'subscription': subscription,
             'success': True
         }
-    except stripe.error.StripeError as e:
+    except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
