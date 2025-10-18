@@ -76,10 +76,9 @@ async def create_checkout_session(request: Request):
             'success': True
         }
     
-    except stripe.error.StripeError as e:
-        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Stripe Error: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.post('/create-payment-intent')
 async def create_payment_intent(request: Request):
