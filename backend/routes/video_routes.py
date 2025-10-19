@@ -181,7 +181,7 @@ async def delete_video(video_id: str, current_user = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 def extract_keywords(text: str) -> str:
-    \"\"\"Extract main keywords from text for stock footage search\"\"\"
+    """Extract main keywords from text for stock footage search"""
     # Simple keyword extraction - take first few words or main nouns
     words = text.split()[:5]
     # Remove common words
