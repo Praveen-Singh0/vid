@@ -133,7 +133,7 @@ async def search_stock_footage(query: str, count: int = 5) -> list:
     }]
 
 async def generate_voiceover(text: str, voice: str = "alloy") -> dict:
-    \"\"\"Generate AI voiceover using OpenAI TTS\"\"\"
+    """Generate AI voiceover using OpenAI TTS"""
     try:
         response = client.audio.speech.create(
             model="tts-1",
