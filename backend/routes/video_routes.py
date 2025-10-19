@@ -139,7 +139,7 @@ async def get_user_videos(current_user = Depends(get_current_user)):
 
 @router.get('/video/{video_id}')
 async def get_video(video_id: str, current_user = Depends(get_current_user)):
-    \"\"\"Get specific video details\"\"\"
+    """Get specific video details"""
     try:
         video = await db.videos.find_one({'_id': ObjectId(video_id), 'user_id': str(current_user['_id'])})
         
