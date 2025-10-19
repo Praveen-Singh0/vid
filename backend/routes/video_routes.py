@@ -46,7 +46,7 @@ async def create_script(request: ScriptGenerationRequest, current_user = Depends
 
 @router.post('/generate-video')
 async def create_video(request: VideoGenerationRequest, current_user = Depends(get_current_user)):
-    \"\"\"Generate complete video from prompt\"\"\"
+    """Generate complete video from prompt"""
     try:
         # Step 1: Generate script
         script_result = await generate_script(request.prompt, request.video_length)
