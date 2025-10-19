@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
-import { Film, LogOut, Video, Plus, Library } from 'lucide-react';
+import { LogOut, Video, Plus, Library } from 'lucide-react';
+import { VideoMakerLogo, VideoMakerLogoText } from './Logo';
 
 const DashboardLayout = ({ children }) => {
   const { user, logout } = useAuth();
@@ -26,13 +27,12 @@ const DashboardLayout = ({ children }) => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-md">
-                <Film className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold font-heading gradient-text">
-                VideoMaker
-              </span>
+            <div 
+              className="flex items-center gap-3 cursor-pointer group" 
+              onClick={() => navigate('/')}
+            >
+              <VideoMakerLogo className="transition-transform group-hover:scale-110" />
+              <VideoMakerLogoText className="text-xl" />
             </div>
 
             {/* User Menu */}
