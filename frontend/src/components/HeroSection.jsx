@@ -18,24 +18,24 @@ export const HeroSection = () => {
           <div className="space-y-8 animate-fadeInUp">
             <Badge variant="premium" className="text-sm px-4 py-1">
               <Sparkles className="w-4 h-4 mr-2" />
-              AI-Powered Video Generation
+              AI-Powered Video Creation
             </Badge>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading leading-tight">
-              The Best AI Video
+              Create Professional Videos
               <br />
-              Generator for{' '}
-              <span className="gradient-text">EVERYONE!</span>
+              in{' '}
+              <span className="gradient-text">Minutes!</span>
             </h1>
 
             <p className="text-lg text-muted-foreground max-w-xl">
-              Create engaging videos in minutes using the power of AI. No video editing experience required.
+              Transform your ideas into stunning videos with AI. No editing experience needed - just upload your content and let VideoMaker do the magic.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="premium" size="xl" className="group">
-                Get started for FREE
+                Start Creating Free
                 <Play className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button variant="hero" size="xl">
@@ -45,7 +45,7 @@ export const HeroSection = () => {
             </div>
 
             <p className="text-sm text-muted-foreground">
-              No credit card required • Free forever plan available
+              No credit card required • 3 free videos to start
             </p>
 
             {/* Trust Badges */}

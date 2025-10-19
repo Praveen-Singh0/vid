@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Linkedin, Youtube, Instagram } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Youtube, Instagram, Film } from 'lucide-react';
 
 export const Footer = () => {
   const footerLinks = {
@@ -53,32 +53,14 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-md">
-                <svg
-                  className="w-6 h-6 text-primary-foreground"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <Film className="w-6 h-6 text-primary-foreground" />
               </div>
               <span className="text-xl font-bold font-heading gradient-text">
-                VideoAI
+                VideoMaker
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-4 max-w-sm">
-              Create engaging videos in minutes using the power of AI. Trusted by 10M+ creators worldwide.
+              Create stunning videos in minutes using the power of AI. Trusted by 10M+ creators worldwide.
             </p>
             {/* Social Links */}
             <div className="flex gap-3">
@@ -118,7 +100,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground text-center md:text-left">
-            © 2024 VideoAI. All rights reserved. SOC 2 & GDPR compliant.
+            © 2024 VideoMaker. All rights reserved. SOC 2 & GDPR compliant.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">
