@@ -89,15 +89,15 @@ export const Footer = () => {
             © 2024 VideoMaker. All rights reserved. SOC 2 & GDPR compliant.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-primary transition-colors">
+            <Link to="/privacy" className="hover:text-primary transition-colors">
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
+            </Link>
+            <Link to="/terms" className="hover:text-primary transition-colors">
               Terms of Service
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
-              Cookies
-            </a>
+            </Link>
+            <Link to="/security" className="hover:text-primary transition-colors">
+              Security
+            </Link>
           </div>
         </div>
       </div>
