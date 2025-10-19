@@ -8,7 +8,7 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 async def generate_script(prompt: str, video_length: str = "short") -> dict:
-    """Generate video script using OpenAI GPT-4\"\"\"
+    """Generate video script using OpenAI GPT-4"""
     try:
         word_count = {
             "short": "100-150",
