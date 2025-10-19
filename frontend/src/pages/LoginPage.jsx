@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
-import { Film, Mail, Lock, Loader2 } from 'lucide-react';
+import { Mail, Lock, Loader2 } from 'lucide-react';
+import { VideoMakerLogo, VideoMakerLogoText } from '../components/Logo';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -33,13 +34,9 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background via-secondary/20 to-background p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-md">
-            <Film className="w-7 h-7 text-primary-foreground" />
-          </div>
-          <span className="text-2xl font-bold font-heading gradient-text">
-            VideoMaker
-          </span>
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <VideoMakerLogo size="large" />
+          <VideoMakerLogoText className="text-3xl" />
         </div>
 
         <Card className="animate-fadeInUp">
