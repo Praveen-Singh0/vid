@@ -55,7 +55,7 @@ async def generate_script(prompt: str, video_length: str = "short") -> dict:
         }
 
 def parse_script_into_scenes(script_text: str) -> list:
-    """Parse script text into individual scenes\"\"\"
+    """Parse script text into individual scenes"""
     # Simple parsing - split by paragraphs or newlines
     lines = [line.strip() for line in script_text.split('\n') if line.strip()]
     
