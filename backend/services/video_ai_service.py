@@ -16,7 +16,7 @@ async def generate_script(prompt: str, video_length: str = "short") -> dict:
             "long": "400-500"
         }.get(video_length, "100-150")
         
-        system_prompt = f\"\"\"You are a professional video script writer. Create engaging video scripts that are optimized for AI video generation.
+        system_prompt = f"""You are a professional video script writer. Create engaging video scripts that are optimized for AI video generation.
         
         Guidelines:
         - Write in a conversational, engaging tone
@@ -24,7 +24,7 @@ async def generate_script(prompt: str, video_length: str = "short") -> dict:
         - Include visual descriptions for each scene
         - Keep scenes short and punchy
         - Word count: {word_count} words
-        \"\"\"
+        """
         
         response = client.chat.completions.create(
             model="gpt-4",
