@@ -133,13 +133,13 @@ export const PricingSection = () => {
                 <div className="mt-6">
                   <div className="flex items-baseline justify-center gap-2">
                     <span className="text-5xl font-bold gradient-text">
-                      ${isAnnual ? plan.priceAnnual : plan.priceMonthly}
+                      ₹{isAnnual ? plan.priceAnnual : plan.priceMonthly}
                     </span>
                     <span className="text-muted-foreground">/month</span>
                   </div>
                   {isAnnual && (
                     <p className="text-sm text-muted-foreground mt-2">
-                      Billed annually (${plan.priceAnnual * 12}/year)
+                      Billed annually (₹{plan.priceAnnual}/year)
                     </p>
                   )}
                 </div>
