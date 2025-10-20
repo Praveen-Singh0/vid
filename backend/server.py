@@ -65,6 +65,9 @@ app.include_router(auth_routes.router, prefix="/api/auth", tags=["authentication
 # Include Video routes
 app.include_router(video_routes.router, prefix="/api/videos", tags=["videos"])
 
+# Include PayU routes
+app.include_router(payu_routes.router, prefix="/api/payu", tags=["payu"])
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
