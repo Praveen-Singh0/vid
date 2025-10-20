@@ -11,8 +11,9 @@ export const PricingSection = () => {
     {
       name: 'Starter',
       description: 'Perfect for individuals getting started',
-      priceMonthly: 19,
-      priceAnnual: 15,
+      priceMonthly: 100,
+      priceAnnual: 1000,
+      currency: '₹',
       features: [
         '10 videos per month',
         'Text to video generation',
@@ -28,8 +29,9 @@ export const PricingSection = () => {
     {
       name: 'Professional',
       description: 'For content creators and marketers',
-      priceMonthly: 49,
-      priceAnnual: 39,
+      priceMonthly: 1000,
+      priceAnnual: 10000,
+      currency: '₹',
       features: [
         'Unlimited videos',
         'All AI features included',
@@ -47,8 +49,9 @@ export const PricingSection = () => {
     {
       name: 'Enterprise',
       description: 'For teams and organizations',
-      priceMonthly: 99,
-      priceAnnual: 79,
+      priceMonthly: 1500,
+      priceAnnual: 15000,
+      currency: '₹',
       features: [
         'Everything in Professional',
         'Unlimited team members',
