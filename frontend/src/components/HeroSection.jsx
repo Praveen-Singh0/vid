@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Play, Sparkles, Video } from 'lucide-react';
+import { Play, Sparkles, Video, X } from 'lucide-react';
 
 export const HeroSection = () => {
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background pt-20">
       {/* Decorative elements */}
@@ -38,7 +40,11 @@ export const HeroSection = () => {
                 Start Creating Free
                 <Play className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button variant="hero" size="xl">
+              <Button 
+                variant="hero" 
+                size="xl"
+                onClick={() => setShowVideoModal(true)}
+              >
                 <Video className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
@@ -120,6 +126,43 @@ export const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeInUp">
+          <div className="relative w-full max-w-5xl">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowVideoModal(false)}
+              className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Video Container */}
+            <div className="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl">
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                title="VideoMaker Tutorial"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+
+            {/* Video Info */}
+            <div className="mt-6 text-center">
+              <h3 className="text-xl font-bold text-white mb-2">
+                Complete VideoMaker Tutorial
+              </h3>
+              <p className="text-white/80">
+                Learn how to create stunning AI videos from start to finish
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
