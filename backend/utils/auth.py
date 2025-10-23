@@ -92,7 +92,7 @@ async def get_current_user_from_token(request: Request):
         payload = decode_access_token(token)
         if payload:
             user_email = payload.get('sub')
-            user = _db.users.find_one({'email': user_email})
+            user = await _db.users.find_one({'email': user_email})
             if user:
                 return {
                     'id': user.get('id') or str(user['_id']),
