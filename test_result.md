@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the VideoAI landing page thoroughly. This is an AI video generator platform similar to Pictory.ai with comprehensive testing of all sections including navigation, hero, features, how it works, pricing, testimonials, CTA, footer, responsive design, and animations."
+user_problem_statement: "Create a Pictory.ai-style AI video generation platform with Text-to-Video feature using OpenAI (GPT-4o for text, gpt-image-1 for images), Emergent LLM Key, and both JWT + Google Social Login authentication."
 
 frontend:
   - task: "Navigation Testing"
