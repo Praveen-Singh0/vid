@@ -13,8 +13,63 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  // Check for session_id in URL fragment (from Google OAuth)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.includes('session_id=')) {
+      handleGoogleCallback();
+    }
+  }, []);
+
+  const handleGoogleCallback = async () => {
+    setGoogleLoading(true);
+    const hash = window.location.hash;
+    const sessionId = hash.split('session_id=')[1]?.split('&')[0];
+    
+    if (!sessionId) {
+      setError('Invalid session');
+      setGoogleLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/google/session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Session-ID': sessionId
+        },
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to authenticate with Google');
+      }
+
+      const data = await response.json();
+      
+      // Store user data in localStorage
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      // Clean up URL
+      window.location.hash = '';
+      
+      // Navigate to dashboard
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+      setGoogleLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    const redirectUrl = encodeURIComponent(`${window.location.origin}/login`);
+    window.location.href = `https://auth.emergentagent.com/?redirect=${redirectUrl}`;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +86,17 @@ const LoginPage = () => {
     
     setLoading(false);
   };
+
+  if (googleLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background via-secondary/20 to-background">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4" />
+          <p className="text-lg">Signing in with Google...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background via-secondary/20 to-background p-4">
