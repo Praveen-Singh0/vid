@@ -51,10 +51,26 @@ function App() {
               } 
             />
             <Route 
-              path="/dashboard/library" 
+              path="/video-library" 
               element={
                 <ProtectedRoute>
                   <VideoLibraryPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/create-video" 
+              element={
+                <ProtectedRoute>
+                  <CreateVideoPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/video-project/:projectId" 
+              element={
+                <ProtectedRoute>
+                  <VideoProjectPage />
                 </ProtectedRoute>
               } 
             />
