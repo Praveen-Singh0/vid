@@ -48,7 +48,7 @@ async def create_video_project(
         }
         
         # Insert into database
-        db.video_projects.insert_one(video_project)
+        await db.video_projects.insert_one(video_project)
         
         # Start background task for video generation
         background_tasks.add_task(generate_video_background, project_id, project.input_text)
