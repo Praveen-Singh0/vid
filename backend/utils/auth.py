@@ -64,7 +64,7 @@ async def get_current_user_from_token(request: Request):
         token = auth_header.split(' ')[1]
         
         # Check if it's a session token
-        session = _db.user_sessions.find_one({'session_token': token})
+        session = await _db.user_sessions.find_one({'session_token': token})
         if session:
             # Check if session expired
             expires_at = session['expires_at']
@@ -73,13 +73,13 @@ async def get_current_user_from_token(request: Request):
                 expires_at = expires_at.replace(tzinfo=timezone.utc)
             
             if expires_at < datetime.now(timezone.utc):
-                _db.user_sessions.delete_one({'session_token': token})
+                await _db.user_sessions.delete_one({'session_token': token})
                 raise HTTPException(status_code=401, detail='Session expired')
             
             # Get user
-            user = _db.users.find_one({'id': session['user_id']})
+            user = await _db.users.find_one({'id': session['user_id']})
             if not user:
-                user = _db.users.find_one({'_id': session['user_id']})
+                user = await _db.users.find_one({'_id': session['user_id']})
             
             if user:
                 return {
