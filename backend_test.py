@@ -13,7 +13,7 @@ from datetime import datetime, timezone, timedelta
 from pymongo import MongoClient
 
 # Configuration
-BACKEND_URL = "https://feb7d622-f33d-43ba-bde9-fd0178449fcc.emergent.host"
+BACKEND_URL = "http://localhost:8001"
 API_BASE = f"{BACKEND_URL}/api"
 MONGO_URL = "mongodb://localhost:27017"
 DB_NAME = "test_database"
