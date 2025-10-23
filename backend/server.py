@@ -68,6 +68,9 @@ app.include_router(video_routes.router, prefix="/api/videos", tags=["videos"])
 # Include PayU routes
 app.include_router(payu_routes.router, prefix="/api/payu", tags=["payu"])
 
+# Include AI Video routes
+app.include_router(ai_video_routes.router, tags=["ai-video"])
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
