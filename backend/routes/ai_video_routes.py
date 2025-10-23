@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, BackgroundTasks
 from typing import List
 import os
 from datetime import datetime
-from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from models.video_project import VideoProject, VideoProjectCreate, VideoProjectResponse, VideoStatus, Scene
 from services.ai_video_service import AIVideoService
 from utils.auth import get_current_user_from_token
