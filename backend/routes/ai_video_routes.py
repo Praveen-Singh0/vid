@@ -72,15 +72,19 @@ async def generate_video_background(project_id: str, input_text: str):
     """
     Background task to generate video scenes and images
     """
+    # Create async MongoDB client for background task
+    bg_client = AsyncIOMotorClient(MONGO_URL)
+    bg_db = bg_client[DB_NAME]
+    
     try:
         # Update status to processing
-        db.video_projects.update_one(
+        await bg_db.video_projects.update_one(
             {"_id": project_id},
             {"$set": {"status": VideoStatus.PROCESSING, "updated_at": datetime.now()}}
         )
         
         # Generate script and scenes
-        db.video_projects.update_one(
+        await bg_db.video_projects.update_one(
             {"_id": project_id},
             {"$set": {"status": VideoStatus.GENERATING_SCRIPT, "updated_at": datetime.now()}}
         )
@@ -88,13 +92,13 @@ async def generate_video_background(project_id: str, input_text: str):
         scenes = await ai_video_service.generate_script_scenes(input_text)
         
         # Save scenes to database
-        db.video_projects.update_one(
+        await bg_db.video_projects.update_one(
             {"_id": project_id},
             {"$set": {"scenes": scenes, "updated_at": datetime.now()}}
         )
         
         # Generate images for scenes
-        db.video_projects.update_one(
+        await bg_db.video_projects.update_one(
             {"_id": project_id},
             {"$set": {"status": VideoStatus.GENERATING_IMAGES, "updated_at": datetime.now()}}
         )
@@ -108,7 +112,7 @@ async def generate_video_background(project_id: str, input_text: str):
         thumbnail_url = scenes_with_images[0].get('image_url') if scenes_with_images else None
         
         # Update project with completed status
-        db.video_projects.update_one(
+        await bg_db.video_projects.update_one(
             {"_id": project_id},
             {
                 "$set": {
@@ -123,7 +127,7 @@ async def generate_video_background(project_id: str, input_text: str):
         
     except Exception as e:
         print(f"Error in background video generation: {e}")
-        db.video_projects.update_one(
+        await bg_db.video_projects.update_one(
             {"_id": project_id},
             {
                 "$set": {
@@ -133,6 +137,8 @@ async def generate_video_background(project_id: str, input_text: str):
                 }
             }
         )
+    finally:
+        bg_client.close()
 
 @router.get("/projects", response_model=List[VideoProjectResponse])
 async def get_user_projects(current_user: dict = Depends(get_current_user_from_token)):
