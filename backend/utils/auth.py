@@ -106,7 +106,7 @@ async def get_current_user_from_token(request: Request):
                 raise HTTPException(status_code=401, detail='Session expired')
             
             # Get user
-            user = _db.user_sessions.find_one({'id': session['user_id']})
+            user = _db.users.find_one({'id': session['user_id']})
             if not user:
                 user = _db.users.find_one({'_id': session['user_id']})
             
