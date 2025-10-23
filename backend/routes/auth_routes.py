@@ -121,3 +121,154 @@ async def get_current_user_info(current_user = Depends(get_current_user)):
         'videos_created': current_user.get('videos_created', 0),
         'created_at': current_user.get('created_at')
     }
+
+# Google OAuth Integration
+@router.post('/google/session')
+async def process_google_session(request: Request, response: Response):
+    """Process Google OAuth session from Emergent Auth"""
+    try:
+        # Get session_id from request header
+        session_id = request.headers.get('X-Session-ID')
+        
+        if not session_id:
+            raise HTTPException(status_code=400, detail='Session ID required')
+        
+        # Call Emergent Auth API to get user data
+        async with httpx.AsyncClient() as client:
+            auth_response = await client.get(
+                'https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data',
+                headers={'X-Session-ID': session_id},
+                timeout=10.0
+            )
+            
+            if auth_response.status_code != 200:
+                raise HTTPException(status_code=401, detail='Invalid session')
+            
+            user_data = auth_response.json()
+        
+        # Check if user exists in database
+        existing_user = await db.users.find_one({'email': user_data['email']})
+        
+        if not existing_user:
+            # Create new user
+            new_user = {
+                'id': user_data['id'],
+                'email': user_data['email'],
+                'name': user_data['name'],
+                'picture': user_data.get('picture'),
+                'subscription_plan': 'free',
+                'videos_created': 0,
+                'created_at': datetime.now(timezone.utc).isoformat(),
+                'updated_at': datetime.now(timezone.utc).isoformat()
+            }
+            await db.users.insert_one(new_user)
+            user_id = user_data['id']
+        else:
+            user_id = existing_user.get('id') or str(existing_user['_id'])
+        
+        # Store session in database
+        session_token = user_data['session_token']
+        session_doc = {
+            'user_id': user_id,
+            'session_token': session_token,
+            'expires_at': datetime.now(timezone.utc) + timedelta(days=7),
+            'created_at': datetime.now(timezone.utc)
+        }
+        await db.user_sessions.insert_one(session_doc)
+        
+        # Set httpOnly cookie
+        response.set_cookie(
+            key='session_token',
+            value=session_token,
+            httponly=True,
+            secure=True,
+            samesite='none',
+            max_age=7 * 24 * 60 * 60,  # 7 days
+            path='/'
+        )
+        
+        return {
+            'success': True,
+            'user': {
+                'id': user_id,
+                'email': user_data['email'],
+                'name': user_data['name'],
+                'picture': user_data.get('picture'),
+                'subscription_plan': 'free'
+            }
+        }
+    
+    except httpx.RequestError as e:
+        raise HTTPException(status_code=500, detail=f'Failed to connect to auth service: {str(e)}')
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Authentication failed: {str(e)}')
+
+@router.get('/session/me')
+async def get_session_user(request: Request):
+    """Get current user from session cookie"""
+    try:
+        # Try to get session_token from cookie
+        session_token = request.cookies.get('session_token')
+        
+        # Fallback to Authorization header
+        if not session_token:
+            auth_header = request.headers.get('Authorization')
+            if auth_header and auth_header.startswith('Bearer '):
+                session_token = auth_header.split(' ')[1]
+        
+        if not session_token:
+            raise HTTPException(status_code=401, detail='Not authenticated')
+        
+        # Find session in database
+        session = await db.user_sessions.find_one({'session_token': session_token})
+        
+        if not session:
+            raise HTTPException(status_code=401, detail='Invalid session')
+        
+        # Check if session expired
+        if session['expires_at'] < datetime.now(timezone.utc):
+            await db.user_sessions.delete_one({'session_token': session_token})
+            raise HTTPException(status_code=401, detail='Session expired')
+        
+        # Get user data
+        user = await db.users.find_one({'id': session['user_id']})
+        if not user:
+            # Fallback to _id
+            user = await db.users.find_one({'_id': session['user_id']})
+        
+        if not user:
+            raise HTTPException(status_code=404, detail='User not found')
+        
+        return {
+            'id': user.get('id') or str(user['_id']),
+            'email': user['email'],
+            'name': user['name'],
+            'picture': user.get('picture'),
+            'subscription_plan': user.get('subscription_plan', 'free'),
+            'videos_created': user.get('videos_created', 0),
+            'created_at': user.get('created_at')
+        }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Failed to get user: {str(e)}')
+
+@router.post('/logout')
+async def logout(request: Request, response: Response):
+    """Logout user and clear session"""
+    try:
+        # Get session_token from cookie
+        session_token = request.cookies.get('session_token')
+        
+        if session_token:
+            # Delete session from database
+            await db.user_sessions.delete_one({'session_token': session_token})
+        
+        # Clear cookie
+        response.delete_cookie(key='session_token', path='/')
+        
+        return {'success': True, 'message': 'Logged out successfully'}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Logout failed: {str(e)}')
