@@ -140,7 +140,7 @@ async def get_user_projects(current_user: dict = Depends(get_current_user_from_t
     Get all video projects for the current user
     """
     try:
-        projects = list(db.video_projects.find({"user_id": current_user["id"]}).sort("created_at", -1))
+        projects = await db.video_projects.find({"user_id": current_user["id"]}).sort("created_at", -1).to_list(1000)
         
         return [
             VideoProjectResponse(
