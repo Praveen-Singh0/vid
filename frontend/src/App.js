@@ -6,6 +6,8 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import VideoLibraryPage from './pages/VideoLibraryPage';
+import CreateVideoPage from './pages/CreateVideoPage';
+import VideoProjectPage from './pages/VideoProjectPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPage from './pages/PrivacyPage';
