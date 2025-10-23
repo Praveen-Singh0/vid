@@ -322,63 +322,90 @@ backend:
 frontend:
   - task: "Create Video Page"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/CreateVideoPage.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
         - agent: "main"
         - comment: "Created video creation form with title and input_text fields. Submits to /api/video/generate and navigates to project page on success."
+        - working: false
+        - agent: "testing"
+        - comment: "❌ Create Video page UI elements present (title field, textarea, generate button) but protected route redirects to login due to CORS authentication issue. Frontend cannot communicate with backend API due to external URL deployment issue."
 
   - task: "Video Project Page"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/VideoProjectPage.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
         - agent: "main"
         - comment: "Created video project detail page showing generation progress with polling every 3 seconds. Displays all scenes with images, narration, and descriptions once completed."
+        - working: false
+        - agent: "testing"
+        - comment: "❌ Video Project page not accessible due to authentication issue. Protected route redirects to login because of CORS policy blocking API calls to external backend URL."
 
   - task: "Video Library Page"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/VideoLibraryPage.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
         - agent: "main"
         - comment: "Updated to show AI video projects with thumbnails, status badges, and delete functionality. Navigates to project detail page on click."
+        - working: false
+        - agent: "testing"
+        - comment: "❌ Video Library page not accessible due to authentication issue. Protected route redirects to login because frontend cannot authenticate with backend API."
 
   - task: "Google Login Button"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/pages/LoginPage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
         - agent: "main"
         - comment: "Added Google OAuth login button and session_id callback handler. Redirects to Emergent Auth, processes session_id from URL fragment, and stores session."
+        - working: true
+        - agent: "testing"
+        - comment: "✅ Google Login Button working correctly. Login page loads with all required elements: email field, password field, Sign In button, and Google login button with Google logo SVG. Button functionality verified (redirects to auth.emergentagent.com). Mobile responsive design confirmed."
 
   - task: "Dashboard Quick Actions"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/DashboardPage.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
         - agent: "main"
         - comment: "Added quick action buttons to dashboard for 'Create AI Video' and 'My Videos' navigation."
+        - working: false
+        - agent: "testing"
+        - comment: "❌ Dashboard not accessible due to authentication issue. Protected route redirects to login because of CORS policy preventing API communication with external backend URL."
+
+  - task: "External URL Deployment Issue"
+    implemented: true
+    working: false
+    file: "Kubernetes Ingress Configuration"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+        - agent: "testing"
+        - comment: "❌ CRITICAL: External URL https://feb7d622-f33d-43ba-bde9-fd0178449fcc.emergent.host shows 'Deployment not found' with 400 status codes. This is a Kubernetes ingress configuration issue preventing external access. Frontend works correctly on localhost:3000 but cannot communicate with backend due to CORS policy when using external URL. All protected routes fail authentication."
 
 metadata:
   created_by: "main_agent"
