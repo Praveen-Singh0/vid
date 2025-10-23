@@ -196,7 +196,7 @@ async def delete_project(project_id: str, current_user: dict = Depends(get_curre
     Delete a video project
     """
     try:
-        result = db.video_projects.delete_one({"_id": project_id, "user_id": current_user["id"]})
+        result = await db.video_projects.delete_one({"_id": project_id, "user_id": current_user["id"]})
         
         if result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="Project not found")
